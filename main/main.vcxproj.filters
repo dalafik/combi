@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="JohnsonTrotter.hpp" />
+    <ClCompile Include="JohnsonTrotter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="common">

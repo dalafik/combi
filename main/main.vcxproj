@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="JohnsonTrotter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="JohnsonTrotter.hpp" />
   </ItemGroup>

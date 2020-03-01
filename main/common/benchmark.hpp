@@ -1,3 +1,4 @@
+#pragma once
 #include <boost/timer/timer.hpp>
 #include <cassert>
 #include <functional>
