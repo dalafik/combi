@@ -3,27 +3,29 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
-// n = 5 with output, t = 0.85s
-// n = 6 with output, t = 6.48s
-
-// n = 10 without output, t = 0.04s
-// n = 12 without output, t = 3.3s
-// n = 13 without output, t = 44.0s
+void Shuffle(
+	std::vector<int>& vec)
+{
+	for (int& elem : vec)
+	{
+		int i = std::rand() % vec.size();
+		std::swap(elem, vec[i]);
+	}
+}
 
 int main()
 {
-	//std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-	//std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-	std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6};
-	std::sort(permut.begin(), permut.end());
-	std::unique(permut.begin(), permut.end());
+	std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6 };
+
+	std::srand(std::time(nullptr));
 
 	benchmark([&]() {
-		do
-		{
-			std::cout << permut << std::endl;
-		} while (std::next_permutation(permut.begin(), permut.end()));
+		std::cout << "Before: " << permut << std::endl;
+		Shuffle(permut);
+		std::cout << "After: " << permut << std::endl;
 	});
 
 	return EXIT_SUCCESS;
