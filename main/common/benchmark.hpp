@@ -13,7 +13,7 @@ void Benchmark(
 
 	boost::timer::cpu_timer timer;
 
-	for (auto i = 0; i < repeats; ++i)
+	for (size_t i = 0; i < repeats; ++i)
 	{
 		timer.start();
 		action();

@@ -1,16 +1,20 @@
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 #include <vector>
 
-template<class T>
+template <class T>
 std::ostream&
-operator <<(
+operator<<(
 	std::ostream& out,
 	const std::vector<T>& v)
 {
 	out << '[';
-	std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+	if (v.size() > 0)
+	{
+		std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(out, ", "));
+		out << v.back();
+	}
 	out << ']';
 	return out;
 }
