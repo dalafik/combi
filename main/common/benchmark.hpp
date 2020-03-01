@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-void benchmark(
+void Benchmark(
 	std::function<void()> action,
 	size_t repeats = 1)
 {
