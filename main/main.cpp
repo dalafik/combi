@@ -10,19 +10,21 @@
 // n = 10 without output, t = 0.04s
 // n = 12 without output, t = 3.3s
 // n = 13 without output, t = 44.0s
+// n = 50 (estimation) t = 3,10734E+64 years
+// n = 100 (esstimation) t = 2,0911E+142 years
 
 int main()
 {
-	//std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+	std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 	//std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-	std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6};
+	//std::vector<int> permut = { 0, 1, 2, 3, 4, 5, 6};
 	std::sort(permut.begin(), permut.end());
 	std::unique(permut.begin(), permut.end());
 
 	benchmark([&]() {
 		do
 		{
-			std::cout << permut << std::endl;
+			//std::cout << permut << std::endl;
 		} while (std::next_permutation(permut.begin(), permut.end()));
 	});
 
