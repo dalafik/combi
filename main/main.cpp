@@ -8,6 +8,8 @@
 // n = 10 without output, t = 0.51s
 // n = 12 without output, t = 51.77s
 
+// n = 50, 100 (estimation) t = ?
+
 int main()
 {
 	Benchmark([&]() {
