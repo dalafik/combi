@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="JohnsonTrotter.test.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="catch.hpp" />
   </ItemGroup>
   <ItemGroup>

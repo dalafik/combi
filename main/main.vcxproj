@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="JohnsonTrotter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\benchmark.hpp" />
