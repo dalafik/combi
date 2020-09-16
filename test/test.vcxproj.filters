@@ -6,4 +6,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FindBridgesAndArticulationPoints.test.cpp" />
+  </ItemGroup>
 </Project>

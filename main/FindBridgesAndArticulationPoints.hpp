@@ -5,6 +5,7 @@
 #include "AdjacencyMatrix.hpp"
 
 // https://cp-algorithms.com/graph/cutpoints.html
+// https://cp-algorithms.com/graph/bridge-searching.html
 // https://www.hackerearth.com/ru/practice/algorithms/graphs/articulation-points-and-bridges/tutorial/
 
 std::pair<std::set<Edge>, std::set<Vertex>>
@@ -43,10 +44,10 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 				if (lowestBack[child] >= discovered[vertex] && parent != -1)
 				{
 					articulPoints.insert(vertex);
-					if (lowestBack[child] > discovered[vertex])
-					{
-						bridges.insert(std::make_pair(vertex, child));
-					}
+				}
+				if (lowestBack[child] > discovered[vertex])
+				{
+					bridges.insert(std::make_pair(vertex, child));
 				}
 			}
 		}
