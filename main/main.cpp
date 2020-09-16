@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "AdjacencyMatrix.hpp"
-#include "FindBridgesAndArticulationPoints.hpp"
+#include "FindStronglyConnectedComponents.hpp"
 
 int main()
 {
@@ -22,18 +22,9 @@ int main()
 	}
 
 	const auto graph = createAdjacencyMatrixFromEdges(nVertices, edges);
-	const auto [bridges, points] = FindBridgesAndArticulationPoints(graph);
+	const auto set = FindStronglyConnectedComponents(graph);
 
-	for (auto& point : points)
-	{
-		std::cout << point + 1 << ' ';
-	}
-	std::cout << std::endl;
-
-	for (auto& [v1, v2] : bridges)
-	{
-		std::cout << v1 + 1 << ' ' << v2 + 1 << std::endl;
-	}
+	std::cout << (set.size() == 1 ? "yes" : "no") << std::endl;
 
 	return EXIT_SUCCESS;
 }

@@ -16,7 +16,7 @@ AdjacencyMatrix createAdjacencyMatrixFromEdges(size_t n, const std::vector<Edge>
 
 	for (const auto [v, u] : edges)
 	{
-		graph[v][u] = graph[u][v] = true;
+		graph[v][u] = true;
 	}
 
 	return graph;
