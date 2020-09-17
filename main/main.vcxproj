@@ -27,7 +27,6 @@
     <ClInclude Include="AdjacencyMatrix.hpp" />
     <ClInclude Include="common\benchmark.hpp" />
     <ClInclude Include="common\stdext.hpp" />
-    <ClInclude Include="ColorGraph.hpp" />
     <ClInclude Include="FindNumberOfSpanningTrees.hpp" />
   </ItemGroup>
   <ItemGroup>

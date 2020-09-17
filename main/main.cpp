@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "AdjacencyMatrix.hpp"
-#include "ColorGraph.hpp"
+#include "FindNumberOfSpanningTrees.hpp"
 
 int main()
 {
@@ -22,12 +22,8 @@ int main()
 	}
 
 	const auto graph = createAdjacencyMatrixFromEdges(nVertices, edges);
-	const auto colors = ColorGraph(graph);
-
-	for (Vertex v = 0; v < colors.size(); ++v)
-	{
-		std::cout << v + 1 << ' ' << colors[v] + 1 << std::endl;
-	}
+	const auto count = FindNumberOfSpanningTrees(graph);
+	std::cout << count << std::endl;
 
 	return EXIT_SUCCESS;
 }
