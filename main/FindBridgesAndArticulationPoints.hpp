@@ -17,6 +17,7 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 	int timer = 0;
 	std::vector<int> discovered(nVertices, -1);
 	std::vector<int> lowestBack(nVertices, -1);
+	constexpr Vertex INVALID_VERTEX = static_cast<Vertex>(-1);
 
 	std::function<void(Vertex, Vertex, int)> dfs = [&](
 		Vertex vertex,
@@ -26,7 +27,7 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 		discovered[vertex] = lowestBack[vertex] = time;
 		size_t nChildren = 0;
 
-		for (size_t child = 0; child < nVertices; ++child)
+		for (Vertex child = 0; child < nVertices; ++child)
 		{
 			if (!graph[vertex][child] || child == parent)
 			{
@@ -41,7 +42,7 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 				++nChildren;
 				dfs(child, vertex, timer++);
 				lowestBack[vertex] = std::min(lowestBack[vertex], lowestBack[child]);
-				if (lowestBack[child] >= discovered[vertex] && parent != -1)
+				if (lowestBack[child] >= discovered[vertex] && parent != INVALID_VERTEX)
 				{
 					articulPoints.insert(vertex);
 				}
@@ -52,17 +53,17 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 			}
 		}
 
-		if (parent == -1 && nChildren > 1)
+		if (parent == INVALID_VERTEX && nChildren > 1)
 		{
 			articulPoints.insert(vertex);
 		}
 	};
 
-	for (size_t i = 0; i < nVertices; ++i)
+	for (Vertex v = 0; v < nVertices; ++v)
 	{
-		if (discovered[i] == -1)
+		if (discovered[v] == -1)
 		{
-			dfs(i, -1, timer++);
+			dfs(v, INVALID_VERTEX, timer++);
 		}
 	}
 
