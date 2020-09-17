@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "AdjacencyMatrix.hpp"
-#include "FindBridgesAndArticulationPoints.hpp"
+#include "ColorGraph.hpp"
 
 int main()
 {
@@ -22,17 +22,11 @@ int main()
 	}
 
 	const auto graph = createAdjacencyMatrixFromEdges(nVertices, edges);
-	const auto [bridges, points] = FindBridgesAndArticulationPoints(graph);
+	const auto colors = ColorGraph(graph);
 
-	for (auto& point : points)
+	for (Vertex v = 0; v < colors.size(); ++v)
 	{
-		std::cout << point + 1 << ' ';
-	}
-	std::cout << std::endl;
-
-	for (auto& [v1, v2] : bridges)
-	{
-		std::cout << v1 + 1 << ' ' << v2 + 1 << std::endl;
+		std::cout << v + 1 << ' ' << colors[v] + 1 << std::endl;
 	}
 
 	return EXIT_SUCCESS;
