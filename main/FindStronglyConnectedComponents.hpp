@@ -26,7 +26,7 @@ FindStronglyConnectedComponents(const AdjacencyMatrix& graph)
 		stack.push(vertex);
 		onStack[vertex] = true;
 
-		for (size_t child = 0; child < nVertices; ++child)
+		for (Vertex child = 0; child < nVertices; ++child)
 		{
 			if (!graph[vertex][child])
 			{
@@ -62,11 +62,11 @@ FindStronglyConnectedComponents(const AdjacencyMatrix& graph)
 		}
 	};
 
-	for (size_t i = 0; i < nVertices; ++i)
+	for (Vertex v = 0; v < nVertices; ++v)
 	{
-		if (discovered[i] == -1)
+		if (discovered[v] == -1)
 		{
-			dfs(i, timer++);
+			dfs(v, timer++);
 		}
 	}
 
