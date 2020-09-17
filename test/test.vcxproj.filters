@@ -8,5 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ColorGraph.test.cpp" />
+    <ClCompile Include="FindDeterminant.test.cpp" />
   </ItemGroup>
 </Project>
