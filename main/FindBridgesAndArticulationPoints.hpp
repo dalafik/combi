@@ -18,13 +18,13 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 	std::vector<int> discovered(nVertices, -1);
 	std::vector<int> lowestBack(nVertices, -1);
 
-	std::function<void(size_t, size_t, int)> dfs = [&](
-		size_t vertex,
-		size_t parent,
+	std::function<void(Vertex, Vertex, int)> dfs = [&](
+		Vertex vertex,
+		Vertex parent,
 		int time)
 	{
 		discovered[vertex] = lowestBack[vertex] = time;
-		size_t children = 0;
+		size_t nChildren = 0;
 
 		for (size_t child = 0; child < nVertices; ++child)
 		{
@@ -38,7 +38,7 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 			}
 			else
 			{
-				++children;
+				++nChildren;
 				dfs(child, vertex, timer++);
 				lowestBack[vertex] = std::min(lowestBack[vertex], lowestBack[child]);
 				if (lowestBack[child] >= discovered[vertex] && parent != -1)
@@ -52,7 +52,7 @@ FindBridgesAndArticulationPoints(const AdjacencyMatrix& graph)
 			}
 		}
 
-		if (parent == -1 && children > 1)
+		if (parent == -1 && nChildren > 1)
 		{
 			articulPoints.insert(vertex);
 		}
