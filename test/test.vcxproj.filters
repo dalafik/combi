@@ -7,7 +7,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ColorGraph.test.cpp" />
     <ClCompile Include="FindDeterminant.test.cpp" />
+    <ClCompile Include="FindNumberOfSpanningTrees.test.cpp" />
   </ItemGroup>
 </Project>
