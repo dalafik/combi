@@ -25,7 +25,7 @@
     <ClInclude Include="AdjacencyMatrix.hpp" />
     <ClInclude Include="common\benchmark.hpp" />
     <ClInclude Include="common\stdext.hpp" />
-    <ClInclude Include="FindBridgesAndArticulationPoints.hpp" />
+    <ClInclude Include="ColorGraph.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

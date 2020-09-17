@@ -25,7 +25,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FindBridgesAndArticulationPoints.test.cpp" />
+    <ClCompile Include="ColorGraph.test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -16,7 +16,7 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="AdjacencyMatrix.hpp" />
-    <ClInclude Include="FindBridgesAndArticulationPoints.hpp" />
+    <ClInclude Include="ColorGraph.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

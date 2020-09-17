@@ -7,6 +7,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FindBridgesAndArticulationPoints.test.cpp" />
+    <ClCompile Include="ColorGraph.test.cpp" />
   </ItemGroup>
 </Project>
