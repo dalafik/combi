@@ -19,15 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FindDeterminant.cpp" />
-    <ClCompile Include="FindDeterminant.hpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdjacencyMatrix.hpp" />
     <ClInclude Include="common\benchmark.hpp" />
     <ClInclude Include="common\stdext.hpp" />
-    <ClInclude Include="FindNumberOfSpanningTrees.hpp" />
+    <ClInclude Include="FindMaximumFlow.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

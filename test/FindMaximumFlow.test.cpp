@@ -1,9 +1,14 @@
 #include <initializer_list>
-#include "../main/FindDeterminant.hpp"
+#include "../main/FindMaximumFlow.hpp"
 #include "catch.hpp"
 
-TEST_CASE("FindDeterminant")
+TEST_CASE("FindMaximumFlow")
 {
+	SECTION("1")
+	{
+		REQUIRE(true);
+	}
+	/*
 	SECTION("sample 1x1")
 	{
 		Matrix matrix = {
@@ -49,4 +54,5 @@ TEST_CASE("FindDeterminant")
 		const Rational determinant = FindDeterminant(matrix);
 		REQUIRE(determinant == -3);
 	}
+*/
 }

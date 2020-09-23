@@ -2,8 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="FindDeterminant.hpp" />
-    <ClCompile Include="FindDeterminant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="common">
@@ -18,7 +16,7 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="AdjacencyMatrix.hpp" />
-    <ClInclude Include="FindNumberOfSpanningTrees.hpp" />
+    <ClInclude Include="FindMaximumFlow.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
