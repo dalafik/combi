@@ -1,3 +1,4 @@
+#define CATCH_CONFIG_MAIN
 #include <initializer_list>
 #include "../main/FindMaximumFlow.hpp"
 #include "catch.hpp"

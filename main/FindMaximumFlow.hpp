@@ -17,7 +17,7 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		return std::set<Edge>();
 	}
 
-	const Vertex source = 0;
+	constexpr Vertex source = 0;
 	const Vertex sink = size - 1;
 
 	AdjacencyMatrix flow = createAdjacencyMatrix(size);
@@ -35,8 +35,8 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 	std::vector<size_t> heights(size, 0);
 	heights[source] = size;
 
-	const auto getOverflowedVertex = [&, size]() -> std::optional<Vertex> {
-		for (Vertex v = 0; v < size; ++v)
+	const auto getOverflowedVertex = [&, source, sink]() -> std::optional<Vertex> {
+		for (Vertex v = source; v < sink; ++v)
 		{
 			if (overflows[v] > 0)
 			{
@@ -46,9 +46,9 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		return std::nullopt;
 	};
 
-	const auto push = [&, size](Vertex v) -> bool {
+	const auto push = [&, source, sink](Vertex v) -> bool {
 		const size_t h = heights[v];
-		for (Vertex u = 0; u < size; ++u)
+		for (Vertex u = source + 1; u < sink; ++u)
 		{
 			const Weight capacity = graph[v][u];
 			const Weight remainingCapacity = capacity - flow[v][u];
@@ -64,16 +64,16 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		return false;
 	};
 
-	const auto lift = [&, size](Vertex v) {
-		constexpr Weight infinity = std::numeric_limits<Weight>::max();
-		Weight min = infinity;
-		for (Vertex u = 0; u < size; ++u)
+	const auto lift = [&, source, sink](Vertex v) {
+		constexpr size_t infinity = std::numeric_limits<size_t>::max();
+		size_t min = infinity;
+		for (Vertex u = source + 1; u < sink; ++u)
 		{
-			assert(heights[u] >= heights[v]);
 			const Weight w = graph[v][u];
 			if (w > 0)
 			{
-				min = std::min(min, w);
+				assert(heights[u] >= heights[v]);
+				min = std::min(min, heights[u]);
 			}
 		}
 		assert(min != infinity);
@@ -91,9 +91,9 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 
 	// Convert adjacency matrix to the set of edges
 	std::set<Edge> result;
-	for (Vertex v = 0; v < size; ++v)
+	for (Vertex v = source; v < sink; ++v)
 	{
-		for (Vertex u = 0; u < size; ++u)
+		for (Vertex u = source + 1; u < size; ++u)
 		{
 			const Weight w = flow[v][u];
 			if (w > 0)
