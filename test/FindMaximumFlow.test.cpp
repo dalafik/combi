@@ -3,12 +3,59 @@
 #include "../main/FindMaximumFlow.hpp"
 #include "catch.hpp"
 
+std::set<Edge> edges(std::initializer_list<Edge> list)
+{
+	return std::set<Edge>(list);
+}
+
 TEST_CASE("FindMaximumFlow")
 {
-	SECTION("1")
+	SECTION("empty")
 	{
-		REQUIRE(true);
+		const auto graph = createAdjacencyMatrixFromEdges(0, {});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result.empty());
 	}
+
+	SECTION("single edge")
+	{
+		const auto graph = createAdjacencyMatrixFromEdges(2, {
+			{0, 1, 100}
+		});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result == edges({ { 0, 1, 100 } }));
+	}
+
+	SECTION("2 connected edges, 1st < 2nd")
+	{
+		const auto graph = createAdjacencyMatrixFromEdges(3, {
+			{ 0, 1, 50 },
+			{ 1, 2, 100 },
+		});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result == edges({ 
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+		}));
+	}
+
+	SECTION("2 connected edges, 1st > 2nd")
+	{
+		const auto graph = createAdjacencyMatrixFromEdges(3, {
+			{ 0, 1, 100 },
+			{ 1, 2, 50 },
+		});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result == edges({ 
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+		}));
+	}
+
 	/*
 	SECTION("sample 1x1")
 	{

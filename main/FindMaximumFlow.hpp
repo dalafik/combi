@@ -46,13 +46,13 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		return std::nullopt;
 	};
 
-	const auto push = [&, source, sink](Vertex v) -> bool {
+	const auto push = [&, source, sink, size](Vertex v) -> bool {
 		const size_t h = heights[v];
-		for (Vertex u = source + 1; u < sink; ++u)
+		for (Vertex u = source + 1; u < size; ++u)
 		{
 			const Weight capacity = graph[v][u];
 			const Weight remainingCapacity = capacity - flow[v][u];
-			if (heights[u] < h && remainingCapacity > 0)
+			if (heights[u] < h && (remainingCapacity > 0 || u == sink))
 			{
 				const Weight add = std::min(overflows[v], remainingCapacity);
 				overflows[v] -= add;
@@ -64,10 +64,10 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		return false;
 	};
 
-	const auto lift = [&, source, sink](Vertex v) {
+	const auto lift = [&, source, size](Vertex v) {
 		constexpr size_t infinity = std::numeric_limits<size_t>::max();
 		size_t min = infinity;
-		for (Vertex u = source + 1; u < sink; ++u)
+		for (Vertex u = source + 1; u < size; ++u)
 		{
 			const Weight w = graph[v][u];
 			if (w > 0)
