@@ -3,6 +3,7 @@
 #include <set>
 #include <algorithm>
 #include <cassert>
+#include <functional>
 #include "AdjacencyMatrix.hpp"
 
 // Push–relabel maximum flow algorithm
@@ -12,6 +13,9 @@
 std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 {
 	const auto size = graph.size();
+#ifdef _DEBUG
+	printf("FindMaximumFlow(): size == %zi\n", size);
+#endif
 	if (size == 0)
 	{
 		return std::set<Edge>();
@@ -35,15 +39,31 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 	std::vector<size_t> heights(size, 0);
 	heights[source] = size;
 
-	const auto getOverflowedVertex = [&, source, sink]() -> std::optional<Vertex> {
-		for (Vertex v = source; v < sink; ++v)
+	const auto whileHasOverflowedVertex = [&, source, sink](const std::function<bool(Vertex v)>& callback) {
+		std::vector<Vertex> overflowsOrder(size);
+		for (Vertex v = source; v < size; ++v)
 		{
-			if (overflows[v] > 0)
+			overflowsOrder[v] = v;
+		}
+
+		bool processed;
+		do
+		{
+			processed = false;
+			for (Vertex i = source; i < sink && !processed; ++i)
 			{
-				return std::make_optional(v);
+				const Vertex v = overflowsOrder[i];
+				if (overflows[v] > 0 && callback(v))
+				{
+					if (i != 0)
+					{
+						std::swap(overflowsOrder[i], overflowsOrder[0]);
+					}
+					processed = true;
+				}
 			}
 		}
-		return std::nullopt;
+		while (processed);
 	};
 
 	const auto push = [&, source, sink, size](Vertex v) -> bool {
@@ -51,43 +71,49 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		for (Vertex u = source + 1; u < size; ++u)
 		{
 			const Weight capacity = graph[v][u];
-			const Weight remainingCapacity = capacity - flow[v][u];
-			if (heights[u] < h && (remainingCapacity > 0 || u == sink))
+			const Weight usedCapacity = flow[v][u];
+			const Weight remainingCapacity = capacity - usedCapacity;
+			if (heights[u] < h && remainingCapacity != 0)
 			{
 				const Weight add = std::min(overflows[v], remainingCapacity);
 				overflows[v] -= add;
 				overflows[u] += add;
 				flow[v][u] += add;
+				flow[u][v] -= add;
+#ifdef _DEBUG
+				printf("pushed %i from %zi to %zi\n", add, v, u);
+#endif
 				return true;
 			}
 		}
 		return false;
 	};
 
-	const auto lift = [&, source, size](Vertex v) {
+	const auto lift = [&, source, size](Vertex v) -> bool {
 		constexpr size_t infinity = std::numeric_limits<size_t>::max();
 		size_t min = infinity;
 		for (Vertex u = source + 1; u < size; ++u)
 		{
-			const Weight w = graph[v][u];
-			if (w > 0)
+			if (heights[u] < heights[v])
 			{
-				assert(heights[u] >= heights[v]);
+				return false;
+			}
+			else if (graph[v][u] > 0)
+			{
 				min = std::min(min, heights[u]);
 			}
 		}
-		assert(min != infinity);
-		heights[v] = min + 1;
+		heights[v] = min + 1;		
+#ifdef _DEBUG
+		printf("lifted %zi to %zi\n", v, heights[v]);
+#endif
+		return true;
 	};
 
 	// Main loop
-	while (const auto v = getOverflowedVertex())
-	{
-		if (!push(*v))
-		{
-			lift(*v);
-		}
-	}
+	whileHasOverflowedVertex([&](Vertex v) {
+		return push(v) || lift(v);
+	});
 
 	// Convert adjacency matrix to the set of edges
 	std::set<Edge> result;
