@@ -102,51 +102,47 @@ TEST_CASE("FindMaximumFlow")
 		}));
 	}
 
-	/*
-	SECTION("sample 1x1")
+	SECTION("dead end")
 	{
-		Matrix matrix = {
-			{ 4 },
-		};
+		const auto graph = createAdjacencyMatrixFromEdges(5, {
+			{ 0, 1, 100 },
+			{ 1, 2, 50 },
+			{ 0, 3, 50 },
+			{ 3, 4, 100 },
+		});
+		const auto result = FindMaximumFlow(graph);
 
-		const Rational determinant = FindDeterminant(matrix);
-		REQUIRE(determinant == 4);
+		REQUIRE(result == edges({ 
+			{ 0, 3, 50 },
+			{ 3, 4, 50 },
+		}));
 	}
 
-	SECTION("sample 2x2")
+	SECTION("example https://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/")
 	{
-		Matrix matrix = {
-			{ 4, 6 },
-			{ 3, 8 },
-		};
+		const auto graph = createAdjacencyMatrixFromEdges(6, {
+			{ 0, 1, 16 },
+			{ 0, 2, 13 },
+			{ 1, 2, 10 },
+			{ 1, 3, 12 },
+			{ 2, 1, 4 },
+			{ 2, 4, 14 },
+			{ 3, 2, 9 },
+			{ 3, 5, 20 },
+			{ 4, 3, 7 },
+			{ 4, 5, 4 },
+		});
+		const auto result = FindMaximumFlow(graph);
 
-		const Rational determinant = FindDeterminant(matrix);
-		REQUIRE(determinant == 14);
+		REQUIRE(result == edges({ 
+			{ 0, 1, 13 },
+			{ 0, 2, 10 },
+			{ 1, 2, 1 },
+			{ 1, 3, 12 },
+			{ 2, 4, 11 },
+			{ 3, 5, 19 },
+			{ 4, 3, 7 },
+			{ 4, 5, 4 },
+		}));
 	}
-
-	SECTION("sample 3x3")
-	{
-		Matrix matrix = {
-			{6, 1, 1},
-			{4, -2, 5},
-			{2, 8, 7},
-		};
-
-		const Rational determinant = FindDeterminant(matrix);
-		REQUIRE(determinant == -306);
-	}
-
-	SECTION("sample 4x4")
-	{
-		Matrix matrix = {
-			{ 4, 7, 2, 3 },
-			{ 1, 3, 1, 2 },
-			{ 2, 5, 3, 4 },
-			{ 1, 4, 2, 3 },
-		};
-
-		const Rational determinant = FindDeterminant(matrix);
-		REQUIRE(determinant == -3);
-	}
-*/
 }

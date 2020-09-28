@@ -6,6 +6,8 @@
 #include <functional>
 #include "AdjacencyMatrix.hpp"
 
+//#define TRACE
+
 // Push–relabel maximum flow algorithm
 // https://en.wikipedia.org/wiki/Push%E2%80%93relabel_maximum_flow_algorithm
 // https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%BF%D1%80%D0%BE%D1%82%D0%B0%D0%BB%D0%BA%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F_%D0%BF%D1%80%D0%B5%D0%B4%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%D0%B0
@@ -13,7 +15,7 @@
 std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 {
 	const auto size = graph.size();
-#ifdef _DEBUG
+#ifdef TRACE
 	printf("FindMaximumFlow(): size == %zi\n", size);
 #endif
 	if (size == 0)
@@ -57,7 +59,7 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 		return graph[v][u] - flow[v][u];
 	};
 
-	const auto push = [&, source, sink, size](Vertex v) -> bool {
+	const auto push = [&, source, size](Vertex v) -> bool {
 		const size_t h = heights[v];
 		for (Vertex u = source; u < size; ++u)
 		{
@@ -69,7 +71,7 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 				overflows[u] += add;
 				flow[v][u] += add;
 				flow[u][v] -= add;
-#ifdef _DEBUG
+#ifdef TRACE
 				printf("pushed %i from %zi to %zi\n", add, v, u);
 #endif
 				return true;
@@ -97,7 +99,7 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 			return false;
 		}
 		heights[v] = min + 1;		
-#ifdef _DEBUG
+#ifdef TRACE
 		printf("lifted %zi to %zi\n", v, heights[v]);
 #endif
 		return true;
