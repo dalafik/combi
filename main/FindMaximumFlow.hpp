@@ -25,14 +25,15 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 	const Vertex sink = size - 1;
 
 	AdjacencyMatrix flow = createAdjacencyMatrix(size);
-
 	std::vector<Weight> overflows(size);
 	for (Vertex v = source + 1; v < size; ++v)
 	{
 		const Weight w = graph[source][v];
 		if (w > 0)
 		{
-			overflows[source] += w;
+			flow[source][v] = w;
+			flow[v][source] = -w;
+			overflows[v] = w;
 		}
 	}
 
@@ -40,39 +41,27 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 	heights[source] = size;
 
 	const auto whileHasOverflowedVertex = [&, source, sink](const std::function<bool(Vertex v)>& callback) {
-		std::vector<Vertex> overflowsOrder(size);
-		for (Vertex v = source; v < size; ++v)
-		{
-			overflowsOrder[v] = v;
-		}
-
 		bool processed;
 		do
 		{
 			processed = false;
-			for (Vertex i = source; i < sink && !processed; ++i)
+			for (Vertex v = source + 1; v < sink && !processed; ++v)
 			{
-				const Vertex v = overflowsOrder[i];
-				if (overflows[v] > 0 && callback(v))
-				{
-					if (i != 0)
-					{
-						std::swap(overflowsOrder[i], overflowsOrder[0]);
-					}
-					processed = true;
-				}
+				processed = overflows[v] > 0 && callback(v);
 			}
 		}
 		while (processed);
 	};
 
+	const auto getRemainingCapacity = [&](Vertex v, Vertex u) -> Weight {
+		return graph[v][u] - flow[v][u];
+	};
+
 	const auto push = [&, source, sink, size](Vertex v) -> bool {
 		const size_t h = heights[v];
-		for (Vertex u = source + 1; u < size; ++u)
+		for (Vertex u = source; u < size; ++u)
 		{
-			const Weight capacity = graph[v][u];
-			const Weight usedCapacity = flow[v][u];
-			const Weight remainingCapacity = capacity - usedCapacity;
+			const Weight remainingCapacity = getRemainingCapacity(v, u);
 			if (heights[u] < h && remainingCapacity != 0)
 			{
 				const Weight add = std::min(overflows[v], remainingCapacity);
@@ -92,16 +81,20 @@ std::set<Edge> FindMaximumFlow(const AdjacencyMatrix& graph)
 	const auto lift = [&, source, size](Vertex v) -> bool {
 		constexpr size_t infinity = std::numeric_limits<size_t>::max();
 		size_t min = infinity;
-		for (Vertex u = source + 1; u < size; ++u)
+		for (Vertex u = source; u < size; ++u)
 		{
-			if (heights[u] < heights[v])
+			if (getRemainingCapacity(v, u) != 0)
 			{
-				return false;
-			}
-			else if (graph[v][u] > 0)
-			{
+				if (heights[v] > heights[u])
+				{
+					return false;
+				}
 				min = std::min(min, heights[u]);
 			}
+		}
+		if (min == infinity)
+		{
+			return false;
 		}
 		heights[v] = min + 1;		
 #ifdef _DEBUG

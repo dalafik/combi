@@ -56,6 +56,52 @@ TEST_CASE("FindMaximumFlow")
 		}));
 	}
 
+	SECTION("triangle #1")
+	{
+		const auto graph = createAdjacencyMatrixFromEdges(3, {
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+			{ 0, 2, 50 }
+		});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result == edges({ 
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+			{ 0, 2, 50 }
+		}));
+	}
+
+	SECTION("triangle #2")
+	{
+		const auto graph = createAdjacencyMatrixFromEdges(3, {
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+			{ 2, 0, 50 }
+		});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result == edges({ 
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+		}));
+	}
+
+	SECTION("triangle #2")
+	{
+		const auto graph = createAdjacencyMatrixFromEdges(3, {
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+			{ 2, 0, 50 }
+		});
+		const auto result = FindMaximumFlow(graph);
+
+		REQUIRE(result == edges({ 
+			{ 0, 1, 50 },
+			{ 1, 2, 50 },
+		}));
+	}
+
 	/*
 	SECTION("sample 1x1")
 	{
